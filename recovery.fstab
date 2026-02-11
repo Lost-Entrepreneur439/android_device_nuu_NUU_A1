@@ -17,5 +17,5 @@ auto            auto     /devices/mtk-msdc.0/11130000.msdc1*                    
 /expdb          emmc     /dev/block/platform/mtk-msdc.0/11120000.msdc0/by-name/expdb        flags=display=expdb
 /secro          emmc     /dev/block/platform/mtk-msdc.0/11120000.msdc0/by-name/secro        flags=display=secro
 /seccfg         emmc     /dev/block/platform/mtk-msdc.0/11120000.msdc0/by-name/seccfg       flags=display=seccfg
-/external_sd    auto     /dev/block/mmcblk1p1	/dev/block/mmcblk1                            flags=display="MicroSD";storage;wipeingui;removable;backup=0
+/external_sd    auto     /dev/block/mmcblk1p1	/dev/block/mmcblk1                           flags=display="MicroSD";storage;wipeingui;removable;backup=0
 auto            vfat     /devices/platform/mt_usb*                                          flags=display=auto
