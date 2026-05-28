@@ -1,7 +1,7 @@
 # inherit from the proprietary version
--include vendor/alps/hct6580/BoardConfigVendor.mk
+-include vendor/nuu/NUU_A1/BoardConfigVendor.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/alps/hct6580/include
+TARGET_SPECIFIC_HEADER_PATH := device/nuu/NUU_A1/include
 
 # Platform
 TARGET_BOARD_PLATFORM := mt6580
@@ -22,7 +22,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := false
 
 # Kernel
-TARGET_PREBUILT_KERNEL := device/alps/hct6580/prebuilt/kernel
+TARGET_PREBUILT_KERNEL := device/nuu/NUU_A1/prebuilt/kernel
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x04000000 --tags_offset 0x0e000000
 
 BOARD_KERNEL_CMDLINE += \
@@ -37,13 +37,13 @@ TARGET_KMODULES := true
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1853882368
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 1559756800
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 5745672192
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := "hct6580,w363,b6580_weg_a_m"
+TARGET_OTA_ASSERT_DEVICE := "NUU_A1,w363,b6580_weg_a_m"
 
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
@@ -51,7 +51,7 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 TARGET_CPU_MEMCPY_OPT_DISABLE := true
 
 # EGL
-BOARD_EGL_CFG := device/alps/hct6580/configs/egl.cfg
+BOARD_EGL_CFG := device/nuu/NUU_A1/configs/egl.cfg
 USE_OPENGL_RENDERER := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
 TARGET_REQUIRES_SYNCHRONOUS_SETSURFACE := true
@@ -66,7 +66,7 @@ BOARD_GPS_LIBRARIES := true
 BOARD_MEDIATEK_USES_GPS := true
 
 # RIL 
-BOARD_RIL_CLASS := ../../../device/alps/hct6580/ril/
+BOARD_RIL_CLASS := ../../../device/nuu/NUU_A1/ril/
 
 BOARD_CONNECTIVITY_VENDOR := MediaTek
 BOARD_CONNECTIVITY_MODULE := conn_soc
@@ -86,7 +86,7 @@ WIFI_DRIVER_FW_PATH_P2P :=P2P
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_MTK := true
 BOARD_BLUETOOTH_DOES_NOT_USE_RFKILL := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/alps/hct6580/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/nuu/NUU_A1/bluetooth
 
 # Offline charging
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/BOOT/BOOT/boot/boot_mode
@@ -98,8 +98,8 @@ BOARD_CHARGER_SHOW_PERCENTAGE := true
 TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # CWM
-TARGET_RECOVERY_FSTAB := device/alps/hct6580/rootdir/root/recovery.fstab
-TARGET_PREBUILT_RECOVERY_KERNEL := device/alps/hct6580/prebuilt/kernel
+TARGET_RECOVERY_FSTAB := device/nuu/NUU_A1/rootdir/root/recovery.fstab
+TARGET_PREBUILT_RECOVERY_KERNEL := device/nuu/NUU_A1/prebuilt/kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 # TWRP stuff
@@ -121,13 +121,13 @@ TW_USE_TOOLBOX := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 
 BOARD_SEPOLICY_DIRS := \
-       device/alps/hct6580/sepolicy
+       device/nuu/NUU_A1/sepolicy
 
 # Use old sepolicy version
 POLICYVERS := 29
 
 # Seccomp filter
-BOARD_SECCOMP_POLICY += device/alps/hct6580/seccomp
+BOARD_SECCOMP_POLICY += device/nuu/NUU_A1/seccomp
 
 # build old-style zip files (required for ota updater)
 BLOCK_BASED_OTA := true

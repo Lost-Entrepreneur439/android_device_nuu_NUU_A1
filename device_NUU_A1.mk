@@ -24,12 +24,12 @@ persist.sys.display.clearMotion=0
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-$(call inherit-product-if-exists, vendor/alps/hct6580/hct6580-vendor.mk)
+$(call inherit-product-if-exists, vendor/nuu/NUU_A1/NUU_A1-vendor.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/alps/hct6580/overlay
-PRODUCT_PACKAGE_OVERLAYS += device/alps/hct6580/overlay # enable this to be able overlay a default wallpaper
+DEVICE_PACKAGE_OVERLAYS += device/nuu/NUU_A1/overlay
+PRODUCT_PACKAGE_OVERLAYS += device/nuu/NUU_A1/overlay # enable this to be able overlay a default wallpaper
 
-LOCAL_PATH := device/alps/hct6580
+LOCAL_PATH := device/nuu/NUU_A1
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := $(LOCAL_PATH)/prebuilt/kernel
 else
@@ -47,15 +47,10 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
-    $(LOCAL_PATH)/configs/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml \
-    $(LOCAL_PATH)/configs/media_codecs_mediatek_audio.xml:system/etc/media_codecs_mediatek_audio.xml \
-    $(LOCAL_PATH)/configs/media_codecs_mediatek_video.xml:system/etc/media_codecs_mediatek_video.xml
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -158,8 +153,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
-TARGET_SCREEN_HEIGHT := 1280
-TARGET_SCREEN_WIDTH := 720
+TARGET_SCREEN_HEIGHT := 800
+TARGET_SCREEN_WIDTH := 480
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 

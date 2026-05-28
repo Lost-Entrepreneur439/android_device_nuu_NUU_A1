@@ -1,6 +1,6 @@
-hct6580 device tree
+NUU_A1 device tree
 ===========
-LineageOS 14.1 device tree for an "iPhone XS Max" clone phone, based on MT6580.
+LineageOS 14.1 device tree for the Insulet OmniPod DASH PDM, based on MT6580.
 
 Credits
 ---------------

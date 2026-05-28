@@ -10,4 +10,4 @@ $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr:
 endif
 
 # include the non-open-source counterpart to this file
--include vendor/alps/hct6580/AndroidBoardVendor.mk
+-include vendor/nuu/NUU_A1/AndroidBoardVendor.mk

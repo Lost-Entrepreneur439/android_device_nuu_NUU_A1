@@ -1,38 +1,38 @@
-From b0889415608f013fa0ffd83aabcbe0b242e768a4 Mon Sep 17 00:00:00 2001
+From a91726e85cd2830d951adc6140cae957b210e276 Mon Sep 17 00:00:00 2001
 From: rock12 <s2012srock@gmail.com>
 Date: Mon, 6 Nov 2017 04:00:45 +0000
 Subject: [PATCH] frameworks_av
 
+Change-Id: I849a1a812f8728318a00d9e6d232894b03dd0be3
 ---
- camera/CameraParameters.cpp                        |    3 +
- camera/cameraserver/cameraserver.rc                |    2 +-
- include/camera/CameraParameters.h                  |    3 +
- include/camera/MtkCamera.h                         |  275 ++
- include/camera/MtkCameraParameters.h               |  364 ++
- include/media/MediaProfiles.h                      |   49 +
- include/media/stagefright/ACodec.h                 |    3 +
- include/media/stagefright/CameraSource.h           |    2 +-
- include/media/stagefright/ColorConverter.h         |    4 +
- include/media/stagefright/MediaBufferGroup.h       |   11 +
- include/media/stagefright/MediaCodec.h             |   11 +
- .../media/stagefright/dpframework/DpBlitStream.h   |  243 ++
- include/media/stagefright/dpframework/DpDataType.h |  450 ++
- media/libmedia/Android.mk                          |   12 +
- media/libmedia/MediaProfiles.cpp                   |   48 +
- media/libmedia/mtkaudio_stubs.cpp                  |  218 +
- .../libmediaplayerservice/StagefrightRecorder.cpp  |    2 +-
- media/libstagefright/ACodec.cpp                    |   42 +
- media/libstagefright/Android.mk                    |   11 +
- media/libstagefright/CameraSource.cpp              |   18 +-
- media/libstagefright/MediaSource.cpp               |   18 +
- media/libstagefright/OMXCodec.cpp                  | 4549 ++++++++++++++++++++
- media/libstagefright/colorconversion/Android.mk    |    7 +
- .../colorconversion/ColorConverter.cpp             |  105 +
- .../libstagefright/foundation/MediaBufferGroup.cpp |   12 +-
- services/audioflinger/Threads.cpp                  |   29 +-
- .../camera/libcameraservice/api1/CameraClient.cpp  |   96 +
- .../camera/libcameraservice/api1/CameraClient.h    |    5 +
- 28 files changed, 6563 insertions(+), 29 deletions(-)
+ camera/CameraParameters.cpp                   |    3 +
+ camera/cameraserver/cameraserver.rc           |    2 +-
+ include/camera/CameraParameters.h             |    3 +
+ include/camera/MtkCamera.h                    |  275 +
+ include/camera/MtkCameraParameters.h          |  364 ++
+ include/media/MediaProfiles.h                 |   49 +
+ include/media/stagefright/ACodec.h            |    3 +
+ include/media/stagefright/CameraSource.h      |    2 +-
+ include/media/stagefright/ColorConverter.h    |    4 +
+ include/media/stagefright/MediaBufferGroup.h  |    6 +
+ include/media/stagefright/MediaCodec.h        |   11 +
+ .../stagefright/dpframework/DpBlitStream.h    |  243 +
+ .../stagefright/dpframework/DpDataType.h      |  450 ++
+ media/libmedia/Android.mk                     |   12 +
+ media/libmedia/MediaProfiles.cpp              |   48 +
+ media/libmedia/mtkaudio_stubs.cpp             |  218 +
+ .../StagefrightRecorder.cpp                   |    2 +-
+ media/libstagefright/ACodec.cpp               |   42 +
+ media/libstagefright/Android.mk               |   11 +
+ media/libstagefright/CameraSource.cpp         |   18 +-
+ media/libstagefright/MediaSource.cpp          |   18 +
+ media/libstagefright/OMXCodec.cpp             | 4549 +++++++++++++++++
+ .../libstagefright/colorconversion/Android.mk |    7 +
+ .../colorconversion/ColorConverter.cpp        |  105 +
+ .../foundation/MediaBufferGroup.cpp           |    6 +-
+ .../libcameraservice/api1/CameraClient.cpp    |   96 +
+ .../libcameraservice/api1/CameraClient.h      |    5 +
+ 27 files changed, 6538 insertions(+), 14 deletions(-)
  create mode 100644 include/camera/MtkCamera.h
  create mode 100644 include/camera/MtkCameraParameters.h
  create mode 100644 include/media/stagefright/dpframework/DpBlitStream.h
@@ -812,16 +812,16 @@ diff --git a/include/media/stagefright/ACodec.h b/include/media/stagefright/ACod
 index d682632..10a3905 100644
 --- a/include/media/stagefright/ACodec.h
 +++ b/include/media/stagefright/ACodec.h
-@@ -351,6 +351,9 @@ protected:
+@@ -350,6 +350,9 @@ protected:
+     status_t allocateOutputBuffersFromNativeWindow();
  #ifdef USE_SAMSUNG_COLORFORMAT
      void setNativeWindowColorFormat(OMX_COLOR_FORMATTYPE &eNativeColorFormat);
- #endif
++#endif
 +#ifdef MTK_HARDWARE
 +    void setHalWindowColorFormat(OMX_COLOR_FORMATTYPE &eHalColorFormat);
-+#endif
+ #endif
      status_t cancelBufferToNativeWindow(BufferInfo *info);
      status_t freeOutputBuffersNotOwnedByComponent();
-     BufferInfo *dequeueBufferFromNativeWindow();
 diff --git a/include/media/stagefright/CameraSource.h b/include/media/stagefright/CameraSource.h
 index c2e75a6..f39688f 100644
 --- a/include/media/stagefright/CameraSource.h
@@ -851,23 +851,10 @@ index 270c809..cf0cda5 100644
      ColorConverter &operator=(const ColorConverter &);
  };
 diff --git a/include/media/stagefright/MediaBufferGroup.h b/include/media/stagefright/MediaBufferGroup.h
-index 3051406..d2a7d89 100644
+index 96439fc..bb58fdb 100644
 --- a/include/media/stagefright/MediaBufferGroup.h
 +++ b/include/media/stagefright/MediaBufferGroup.h
-@@ -29,7 +29,12 @@ class MetaData;
- 
- class MediaBufferGroup : public MediaBufferObserver {
- public:
-+#ifdef MTK_HARDWARE
-+    MediaBufferGroup();
-+    MediaBufferGroup(size_t growthLimit);
-+#else
-     MediaBufferGroup(size_t growthLimit = 0);
-+#endif
- 
-     // create a media buffer group with preallocated buffers
-     MediaBufferGroup(size_t buffers, size_t buffer_size, size_t growthLimit = 0);
-@@ -48,8 +53,14 @@ public:
+@@ -50,8 +50,14 @@ public:
      // If requestedSize is 0, any free MediaBuffer will be returned.
      // If requestedSize is > 0, the returned MediaBuffer should have buffer
      // size of at least requstedSize.
@@ -1616,10 +1603,10 @@ index 0000000..d858e97
 +
 +#endif  // __DP_DATA_TYPE_H__
 diff --git a/media/libmedia/Android.mk b/media/libmedia/Android.mk
-index df4e4b6..02413d7 100644
+index fccdb73..4c7fe16 100644
 --- a/media/libmedia/Android.mk
 +++ b/media/libmedia/Android.mk
-@@ -101,5 +101,17 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
+@@ -108,5 +108,17 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
  LOCAL_CLANG := true
  LOCAL_SANITIZE := unsigned-integer-overflow signed-integer-overflow
  
@@ -1928,7 +1915,7 @@ index 0000000..02e0058
 +
 +} // namespace
 diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
-index a6558ab..7c1750b 100644
+index 0d8e995..b66df2a 100644
 --- a/media/libmediaplayerservice/StagefrightRecorder.cpp
 +++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
 @@ -1499,7 +1499,7 @@ status_t StagefrightRecorder::setupCameraSource(
@@ -1941,7 +1928,7 @@ index a6558ab..7c1750b 100644
      AVUtils::get()->cacheCaptureBuffers(mCamera, mVideoEncoder);
      mCamera.clear();
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index 92e2847..7b4bb4a 100644
+index a11494d..ea64201 100644
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
 @@ -85,6 +85,17 @@
@@ -6815,27 +6802,21 @@ index 3ca7cc0..9367e45 100644
 +
  }  // namespace android
 diff --git a/media/libstagefright/foundation/MediaBufferGroup.cpp b/media/libstagefright/foundation/MediaBufferGroup.cpp
-index 8e4d064..97c807f 100644
+index 64d55cf..e4756e7 100644
 --- a/media/libstagefright/foundation/MediaBufferGroup.cpp
 +++ b/media/libstagefright/foundation/MediaBufferGroup.cpp
-@@ -31,7 +31,11 @@ constexpr T MIN(const T &a, const T &b) { return a <= b ? a : b; }
- // smaller threshold than an isolated new MediaBuffer.
- static const size_t kSharedMemoryThreshold = MIN(
-         (size_t)MediaBuffer::kSharedMemThreshold, (size_t)(4 * 1024));
+@@ -35,7 +35,6 @@ static const size_t kSharedMemoryThreshold = MIN(
+ MediaBufferGroup::MediaBufferGroup() :
+     mGrowthLimit(0) {
+ }
 -
-+#ifdef MTK_HARDWARE
-+MediaBufferGroup::MediaBufferGroup() :
-+    mGrowthLimit(0) {
-+}
-+#endif
  MediaBufferGroup::MediaBufferGroup(size_t growthLimit) :
      mGrowthLimit(growthLimit) {
  }
-@@ -137,7 +141,11 @@ bool MediaBufferGroup::has_buffers() {
-     }
+@@ -142,6 +141,11 @@ bool MediaBufferGroup::has_buffers() {
      return false;
  }
--
+ 
 +#ifdef MTK_HARDWARE
 +status_t MediaBufferGroup::acquire_buffer(MediaBuffer **buffer, bool nonBlocking) {
 +    return acquire_buffer(buffer, nonBlocking, 0);
@@ -6844,46 +6825,6 @@ index 8e4d064..97c807f 100644
  status_t MediaBufferGroup::acquire_buffer(
          MediaBuffer **out, bool nonBlocking, size_t requestedSize) {
      Mutex::Autolock autoLock(mLock);
-diff --git a/services/audioflinger/Threads.cpp b/services/audioflinger/Threads.cpp
-index e8c80c1..0c36293 100644
---- a/services/audioflinger/Threads.cpp
-+++ b/services/audioflinger/Threads.cpp
-@@ -6466,20 +6466,21 @@ reacquire_wakelock:
-         mTimestamp.mTimeNs[ExtendedTimestamp::LOCATION_SERVER] = systemTime();
- 
-         // Update server timestamp with kernel stats
--        if (mInput->stream->get_capture_position != nullptr
--                && mPipeSource.get() == nullptr /* don't obtain for FastCapture, could block */) {
--            int64_t position, time;
--            int ret = mInput->stream->get_capture_position(mInput->stream, &position, &time);
--            if (ret == NO_ERROR) {
--                mTimestamp.mPosition[ExtendedTimestamp::LOCATION_KERNEL] = position;
--                mTimestamp.mTimeNs[ExtendedTimestamp::LOCATION_KERNEL] = time;
--                // Note: In general record buffers should tend to be empty in
--                // a properly running pipeline.
--                //
--                // Also, it is not advantageous to call get_presentation_position during the read
--                // as the read obtains a lock, preventing the timestamp call from executing.
--            }
--        }
-+
-+        // if (mInput->stream->get_capture_position != nullptr
-+        //         && mPipeSource.get() == nullptr /* don't obtain for FastCapture, could block */) {
-+        //     int64_t position, time;
-+        //     int ret = mInput->stream->get_capture_position(mInput->stream, &position, &time);
-+        //     if (ret == NO_ERROR) {
-+        //         mTimestamp.mPosition[ExtendedTimestamp::LOCATION_KERNEL] = position;
-+        //         mTimestamp.mTimeNs[ExtendedTimestamp::LOCATION_KERNEL] = time;
-+        //         // Note: In general record buffers should tend to be empty in
-+        //         // a properly running pipeline.
-+        //         //
-+        //         // Also, it is not advantageous to call get_presentation_position during the read
-+        //         // as the read obtains a lock, preventing the timestamp call from executing.
-+        //     }
-+        // }
-         // Use this to track timestamp information
-         // ALOGD("%s", mTimestamp.toString().c_str());
- 
 diff --git a/services/camera/libcameraservice/api1/CameraClient.cpp b/services/camera/libcameraservice/api1/CameraClient.cpp
 index b02d8f9..a53469d 100644
 --- a/services/camera/libcameraservice/api1/CameraClient.cpp
@@ -7043,5 +6984,5 @@ index 55f64aa..19f3ff5 100644
      void                    handlePreviewData(int32_t msgType, const sp<IMemory>& mem,
              camera_frame_metadata_t *metadata);
 -- 
-1.9.1
+2.53.0
 
