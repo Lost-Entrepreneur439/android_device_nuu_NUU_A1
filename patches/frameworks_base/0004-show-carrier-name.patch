@@ -1,18 +1,18 @@
-From 02cea8224f3b2db543aaf548ac10cbbb6ca4b55e Mon Sep 17 00:00:00 2001
+From e44ef8aab197a534cde2ab107aac3edcdf79320d Mon Sep 17 00:00:00 2001
 From: seluce <ferris.daehn@outlook.de>
 Date: Thu, 8 Nov 2018 23:56:04 +0100
 Subject: [PATCH] show carrier name
 
 Change-Id: I4e2af8d960e379c6ef50663bd58103aa50281be6
 ---
- .../statusbar/policy/MobileSignalController.java         | 16 ++++++++++++++--
+ .../statusbar/policy/MobileSignalController.java | 16 ++++++++++++++--
  1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/MobileSignalController.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/MobileSignalController.java
-index 866c5ae..e2690e8 100644
+index 3ff4e392..20ae3509 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/MobileSignalController.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/MobileSignalController.java
-@@ -92,6 +92,11 @@ public class MobileSignalController extends SignalController<
+@@ -105,6 +105,11 @@ public class MobileSignalController extends SignalController<
  
          String networkName = info.getCarrierName() != null ? info.getCarrierName().toString()
                  : mNetworkNameDefault;
@@ -24,8 +24,8 @@ index 866c5ae..e2690e8 100644
          mLastState.networkName = mCurrentState.networkName = networkName;
          mLastState.networkNameData = mCurrentState.networkNameData = networkName;
          mLastState.enabled = mCurrentState.enabled = hasMobileData;
-@@ -100,6 +105,13 @@ public class MobileSignalController extends SignalController<
-         updateDataSim();
+@@ -136,6 +141,13 @@ public class MobileSignalController extends SignalController<
+         }
      }
  
 +    private boolean isNumeric(String str) {
@@ -38,7 +38,7 @@ index 866c5ae..e2690e8 100644
      public void setConfiguration(Config config) {
          mConfig = config;
          mapIconSets();
-@@ -360,10 +372,10 @@ public class MobileSignalController extends SignalController<
+@@ -415,10 +427,10 @@ public class MobileSignalController extends SignalController<
          StringBuilder str = new StringBuilder();
          StringBuilder strData = new StringBuilder();
          if (showPlmn && plmn != null) {
@@ -52,5 +52,5 @@ index 866c5ae..e2690e8 100644
                  str.append(mNetworkNameSeparator);
              }
 -- 
-2.7.4
+2.53.0
 

@@ -1,4 +1,4 @@
-From a91726e85cd2830d951adc6140cae957b210e276 Mon Sep 17 00:00:00 2001
+From bd1493fc4b1f3e55d3ca2c85f7c19f92f1121a8b Mon Sep 17 00:00:00 2001
 From: rock12 <s2012srock@gmail.com>
 Date: Mon, 6 Nov 2017 04:00:45 +0000
 Subject: [PATCH] frameworks_av
@@ -29,10 +29,10 @@ Change-Id: I849a1a812f8728318a00d9e6d232894b03dd0be3
  media/libstagefright/OMXCodec.cpp             | 4549 +++++++++++++++++
  .../libstagefright/colorconversion/Android.mk |    7 +
  .../colorconversion/ColorConverter.cpp        |  105 +
- .../foundation/MediaBufferGroup.cpp           |    6 +-
+ .../foundation/MediaBufferGroup.cpp           |    5 +
  .../libcameraservice/api1/CameraClient.cpp    |   96 +
  .../libcameraservice/api1/CameraClient.h      |    5 +
- 27 files changed, 6538 insertions(+), 14 deletions(-)
+ 27 files changed, 6538 insertions(+), 13 deletions(-)
  create mode 100644 include/camera/MtkCamera.h
  create mode 100644 include/camera/MtkCameraParameters.h
  create mode 100644 include/media/stagefright/dpframework/DpBlitStream.h
@@ -851,10 +851,10 @@ index 270c809..cf0cda5 100644
      ColorConverter &operator=(const ColorConverter &);
  };
 diff --git a/include/media/stagefright/MediaBufferGroup.h b/include/media/stagefright/MediaBufferGroup.h
-index 96439fc..bb58fdb 100644
+index 3051406..d4f1599 100644
 --- a/include/media/stagefright/MediaBufferGroup.h
 +++ b/include/media/stagefright/MediaBufferGroup.h
-@@ -50,8 +50,14 @@ public:
+@@ -48,8 +48,14 @@ public:
      // If requestedSize is 0, any free MediaBuffer will be returned.
      // If requestedSize is > 0, the returned MediaBuffer should have buffer
      // size of at least requstedSize.
@@ -1603,10 +1603,10 @@ index 0000000..d858e97
 +
 +#endif  // __DP_DATA_TYPE_H__
 diff --git a/media/libmedia/Android.mk b/media/libmedia/Android.mk
-index fccdb73..4c7fe16 100644
+index df4e4b6..02413d7 100644
 --- a/media/libmedia/Android.mk
 +++ b/media/libmedia/Android.mk
-@@ -108,5 +108,17 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
+@@ -101,5 +101,17 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
  LOCAL_CLANG := true
  LOCAL_SANITIZE := unsigned-integer-overflow signed-integer-overflow
  
@@ -1915,7 +1915,7 @@ index 0000000..02e0058
 +
 +} // namespace
 diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
-index 0d8e995..b66df2a 100644
+index a6558ab..7c1750b 100644
 --- a/media/libmediaplayerservice/StagefrightRecorder.cpp
 +++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
 @@ -1499,7 +1499,7 @@ status_t StagefrightRecorder::setupCameraSource(
@@ -6802,18 +6802,10 @@ index 3ca7cc0..9367e45 100644
 +
  }  // namespace android
 diff --git a/media/libstagefright/foundation/MediaBufferGroup.cpp b/media/libstagefright/foundation/MediaBufferGroup.cpp
-index 64d55cf..e4756e7 100644
+index 8e4d064..af09247 100644
 --- a/media/libstagefright/foundation/MediaBufferGroup.cpp
 +++ b/media/libstagefright/foundation/MediaBufferGroup.cpp
-@@ -35,7 +35,6 @@ static const size_t kSharedMemoryThreshold = MIN(
- MediaBufferGroup::MediaBufferGroup() :
-     mGrowthLimit(0) {
- }
--
- MediaBufferGroup::MediaBufferGroup(size_t growthLimit) :
-     mGrowthLimit(growthLimit) {
- }
-@@ -142,6 +141,11 @@ bool MediaBufferGroup::has_buffers() {
+@@ -138,6 +138,11 @@ bool MediaBufferGroup::has_buffers() {
      return false;
  }
  
