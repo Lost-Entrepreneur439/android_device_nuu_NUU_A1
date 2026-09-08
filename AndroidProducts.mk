@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_hct6580.mk
+    $(LOCAL_DIR)/lineage_NUU_A1.mk
