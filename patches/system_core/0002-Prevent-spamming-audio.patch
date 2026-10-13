@@ -1,4 +1,4 @@
-From 35cfee625f23595705de1e4e4d3728566c4950fc Mon Sep 17 00:00:00 2001
+From 952c5a80e9381a951381a3cceffa24ac7aad1aed Mon Sep 17 00:00:00 2001
 From: adi766 <adityakumarteli7846@gmail.com>
 Date: Sat, 23 Sep 2017 07:50:12 +0000
 Subject: [PATCH] Mediatek: Prevent log spamming of audio.
@@ -127,5 +127,5 @@ index c7b5a84..402be3f 100644
 +}
 +#endif
 -- 
-2.53.0
+2.56.0
 

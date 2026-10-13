@@ -2,14 +2,14 @@
 PRODUCT_RELEASE_NAME := NUU_A1
 
 # Inherit some common CM stuff.
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
+$(call inherit-product, vendor/aicp/configs/common.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/nuu/NUU_A1/lineage_NUU_A1.mk)
+$(call inherit-product, device/nuu/NUU_A1/aicp_NUU_A1.mk)
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := NUU_A1
-PRODUCT_NAME := lineage_NUU_A1
+PRODUCT_NAME := aicp_NUU_A1
 PRODUCT_BRAND := nuu
 PRODUCT_MODEL := NUU_A1
 PRODUCT_MANUFACTURER := nuu
